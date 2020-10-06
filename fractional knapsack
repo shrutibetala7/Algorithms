@@ -1,0 +1,70 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	float **a;
+	int n;
+	cout<<"Enter the number of elements :";
+	cin>>n;
+	a=new float *[n];
+	for(int i=0;i<n;i++)
+	{
+		a[i]=new float[3];
+	}
+	for(int i=0;i<n;i++)
+	{
+		cout<<"Enter the weight of the " <<i+1<<" element :";
+		cin>>a[i][0];
+		cout<<"Enter the profit on that element:";
+		cin>>a[i][1];
+		
+		a[i][2]=a[i][1]/a[i][0];
+	}
+	
+	for(int i=1;i<n;i++)
+	{float key=a[i][2];
+	 float *key_arr=a[i];
+		int j=i-1;
+		while(j>=0&&a[j][2]>key)
+		{
+			a[j+1]=a[j];
+			j=j-1;
+		}
+		a[j+1]=key_arr;
+		a[j+1][2]=key;
+	}
+	cout<<"\nSorted wrt W/P ratio\n";
+	cout<<"Weight\t"<<"Profit\t"<<"W/P";
+	for(int i=0;i<n;i++)      //sorting by the ratios
+	 { cout<<"\n";
+		 for(int j=0;j<3;j++)
+	          {
+				  cout<<a[i][j]<<"\t";
+			  }
+		  }
+	int m;
+	float p=0.0;	  
+	cout<<"\nMaximum capacity of bag :";
+	cin>>m;
+	
+	for(int i=n-1;i>=0;i--)
+	{
+		if(m>0&&a[i][0]<m)
+		{
+			m=m-a[i][0];
+			p=p+a[i][1];
+			//*for checking values* cout<<"Stage profit"<<p<<"\t"<<"capacity left "<<m;
+		}
+		
+		if(m >0&&a[i][0]>m)
+		{  
+			p =p + (a[i][1]*(m/a[i][0]));
+			m=0;
+			//*for checking values* cout<<"\n stage profit "<<p<<"\t"<<"capacity left "<<m;
+		}
+	}
+	cout<<"\nTotal maximum profit :";
+	cout<<p;
+	
+	return 0;
+}
